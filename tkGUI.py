@@ -86,16 +86,16 @@ entry_frame = customtkinter.CTkFrame(master=tk)
 entry_frame.pack(pady="10")
 
 title = tkinter.Label(entry_frame, text="Song Title:", padx="5", pady ="5")
-title.pack(pady = "10")
+title.pack(pady="5")
 
 title_entry = tkinter.Entry(entry_frame)
-title_entry.pack()
+title_entry.pack(pady="5")
 
 artist = tkinter.Label(entry_frame, text="Artist:", padx="5", pady ="5")
-artist.pack(pady = "10")
+artist.pack(pady="5")
 
 artist_entry = tkinter.Entry(entry_frame)
-artist_entry.pack()
+artist_entry.pack(pady="5")
 
 button_frame = customtkinter.CTkFrame(master=tk)
 button_frame.pack(pady="10")
