@@ -4,6 +4,8 @@ from tkinter import END
 from tkinter import *
 from song import Song
 import songsSDK
+from youtube_search import YoutubeSearch
+import webbrowser
 
 customtkinter.set_appearance_mode("dark")
 customtkinter.set_default_color_theme("dark-blue")
@@ -40,9 +42,22 @@ def remove_from_list():
         #delete graphically using index of current selection
         listbox.delete(song_tuple)
 
+def search_song():
+    #grab song
+    song_tuple = listbox.curselection()
+    song = songs[song_tuple[0]]
+
+    search_keyword = song.title.strip().replace(" ","+") + "+" + song.artist.strip().replace(" ","+")
+    results = YoutubeSearch(search_keyword, max_results=1).to_dict()
+    id = results[0]['url_suffix']
+    callback("https://www.youtube.com" + id)
+
+def callback(url):
+   webbrowser.open_new_tab(url)
+
 tk = customtkinter.CTk()
 tk.title("Library")
-tk.geometry("400x600")
+tk.geometry("400x700")
 
 #scrollbar
 frame = customtkinter.CTkFrame(master=tk)
@@ -79,9 +94,12 @@ artist_entry = tkinter.Entry(tk)
 artist_entry.pack()
 
 button = customtkinter.CTkButton(tk, text="Add Song", command = add_to_list)
-button.pack(pady = "10")
+button.pack(pady="10")
 
 button = customtkinter.CTkButton(tk, text="Remove Selected Song", command = remove_from_list)
 button.pack()
+
+button = customtkinter.CTkButton(tk, text="Play Song", command = search_song)
+button.pack(side=BOTTOM)
 
 tk.mainloop()
