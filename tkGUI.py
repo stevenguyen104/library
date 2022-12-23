@@ -2,6 +2,7 @@ import customtkinter
 import tkinter
 from tkinter import END
 from tkinter import *
+from PIL import ImageTk, Image
 from song import Song
 import songsSDK
 from youtube_search import YoutubeSearch
@@ -66,7 +67,7 @@ my_scrollbar = Scrollbar(frame, orient = VERTICAL)
 
 
 #create LISTBOX
-listbox  = tkinter.Listbox(frame, width = "50", height = "20", yscrollcommand = my_scrollbar.set)
+listbox  = tkinter.Listbox(frame, width = "50", height = "15", yscrollcommand = my_scrollbar.set)
 
 #scrollbar config
 my_scrollbar.config(command=listbox.yview)
@@ -81,25 +82,34 @@ for song in songsSDK.get_songs():
     listbox.insert(END, song)
 
 
-title = tkinter.Label(tk, text="Song Title:", padx="5", pady ="5")
+entry_frame = customtkinter.CTkFrame(master=tk)
+entry_frame.pack(pady="10")
+
+title = tkinter.Label(entry_frame, text="Song Title:", padx="5", pady ="5")
 title.pack(pady = "10")
 
-title_entry = tkinter.Entry(tk)
+title_entry = tkinter.Entry(entry_frame)
 title_entry.pack()
 
-artist = tkinter.Label(tk, text="Artist:", padx="5", pady ="5")
+artist = tkinter.Label(entry_frame, text="Artist:", padx="5", pady ="5")
 artist.pack(pady = "10")
 
-artist_entry = tkinter.Entry(tk)
+artist_entry = tkinter.Entry(entry_frame)
 artist_entry.pack()
 
-button = customtkinter.CTkButton(tk, text="Add Song", command = add_to_list)
+button_frame = customtkinter.CTkFrame(master=tk)
+button_frame.pack(pady="10")
+
+button = customtkinter.CTkButton(button_frame, text="Add Song", command = add_to_list)
+button.pack(pady="5")
+
+button = customtkinter.CTkButton(button_frame, text="Remove Selected Song", command = remove_from_list)
+button.pack(pady="5")
+
+pic = Image.open("wheel.png")
+re_pic = pic.resize((50,50))
+img = customtkinter.CTkImage(re_pic)
+button = customtkinter.CTkButton(master = tk, image = img, text = "Play Selected Song", width = 70, height = 70, command = search_song)
 button.pack(pady="10")
-
-button = customtkinter.CTkButton(tk, text="Remove Selected Song", command = remove_from_list)
-button.pack()
-
-button = customtkinter.CTkButton(tk, text="Play Song", command = search_song)
-button.pack(side=BOTTOM)
 
 tk.mainloop()
